@@ -1,0 +1,26 @@
+[
+    {
+        "title": "velocidad_promedio",
+        "dataset_id": "velocidad-promedio-vehicular-en-las-principales-avenidas-de-montevideo"
+    },
+
+    {
+      "title": "conteo_vehicular",
+      "dataset_id": "conteo-vehicular-en-las-principales-avenidas-de-montevideo"
+    },
+
+    {
+      "title": "multas_transito",
+      "dataset_id": "multas-de-transito"
+    },
+
+    {
+      "title": "listado_calles",
+      "dataset_id": "vias-de-montevideo-con-cabezales-de-numeracion-significado-tipo-y-titulo"
+    },
+
+    {
+      "title": "lesionados_en_siniestros",
+      "dataset_id": "base-anual-de-personas-lesionadas-en-siniestros-de-transito"
+    }
+]
