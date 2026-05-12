@@ -1,26 +1,42 @@
 [
     {
         "title": "velocidad_promedio",
-        "dataset_id": "velocidad-promedio-vehicular-en-las-principales-avenidas-de-montevideo"
+        "dataset_id": "velocidad-promedio-vehicular-en-las-principales-avenidas-de-montevideo",
+        "date_window": {
+            "start": "2022-01",
+            "end": "2022-12"
+        }
     },
-
     {
-      "title": "conteo_vehicular",
-      "dataset_id": "conteo-vehicular-en-las-principales-avenidas-de-montevideo"
+        "title": "conteo_vehicular",
+        "dataset_id": "conteo-vehicular-en-las-principales-avenidas-de-montevideo",
+        "date_window": {
+            "start": "2022-01",
+            "end": "2022-12"
+        }
     },
-
     {
-      "title": "multas_transito",
-      "dataset_id": "multas-de-transito"
+        "title": "lesionados_en_siniestros",
+        "dataset_id": "base-anual-de-personas-lesionadas-en-siniestros-de-transito",
+        "date_window": {
+            "start": "2022-01",
+            "end": "2022-12"
+        }
     },
-
     {
-      "title": "listado_calles",
-      "dataset_id": "vias-de-montevideo-con-cabezales-de-numeracion-significado-tipo-y-titulo"
+        "title": "multas_transito",
+        "dataset_id": "multas-de-transito",
+        "date_window": {
+            "start": "2022-01",
+            "end": "2022-12"
+        }
     },
-
     {
-      "title": "lesionados_en_siniestros",
-      "dataset_id": "base-anual-de-personas-lesionadas-en-siniestros-de-transito"
+        "title": "listado_calles",
+        "dataset_id": "vias-de-montevideo-con-cabezales-de-numeracion-significado-tipo-y-titulo",
+        "date_window": {
+            "start": "2022-01",
+            "end": "2022-12"
+        }
     }
 ]
