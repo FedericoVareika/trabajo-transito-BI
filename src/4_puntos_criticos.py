@@ -93,5 +93,13 @@ Columnas clave para Power BI:
 - color_sugerido_powerbi: Seleccionar la burbuja en Formato, elegir "Formato 
   Condicional" -> "Valor de campo" y usar esta columna para que el mapa se
   pinte solo de Rojo, Amarillo o Verde según el modelo K-Means.
+
+VISUALIZACIONES RECOMENDADAS:
+1. Mapa:
+   - Ubicación: latitud y longitud. Leyenda: categoria_peligrosidad. (Pinta todo Montevideo según la clasificación automática de la IA).
+2. Gráfico de Anillo (Donut Chart):
+   - Leyenda: categoria_peligrosidad. Valores: Recuento de latitud. (Para ver el porcentaje de sensores que cayeron en estado Crítico).
+3. Segmentador de Datos (Slicer):
+   - Campo: categoria_peligrosidad. (Filtro maestro para que al hacer clic en "Punto Crítico", el resto del Dashboard muestre solo esos datos).
 =============================================================================
 """

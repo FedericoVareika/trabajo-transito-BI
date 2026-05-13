@@ -70,7 +70,13 @@ Columnas clave para Power BI:
 - cod_detector: Para filtrar tendencias de una sola calle usando un Filtro/Slicer.
 - velocidad_media: Útil para el Eje Y de un gráfico de Líneas (ej. ver hora pico).
 - volumen_total: Útil para el Eje Y de un gráfico de Barras (ej. tráfico por hora).
-Nota: Puedes usar el visual de "Gráfico de líneas y columnas agrupadas" para
-ver cómo cae la velocidad a medida que aumentan las columnas de volumen.
+
+VISUALIZACIONES RECOMENDADAS:
+1. Gráfico de Líneas (Curva de Hora Pico):
+   - Eje X: hora. Eje Y: velocidad_media. Leyenda: dia_semana. (Compara la hora pico entre días hábiles vs fines de semana).
+2. Gráfico de Columnas Agrupadas y Líneas (Estacionalidad):
+   - Eje X: mes. Eje Y (Columna): volumen_total. Eje Y (Línea): velocidad_media.
+3. Mapa de Calor (Visual de Matriz):
+   - Filas: dia_semana. Columnas: hora. Valores: volumen_total (Color de fondo de celda dinámico para ver rápidamente cuándo hay más flujo).
 =============================================================================
 """

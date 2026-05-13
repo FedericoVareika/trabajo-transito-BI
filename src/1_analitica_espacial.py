@@ -179,5 +179,13 @@ Columnas clave para Power BI:
 - cantidad_siniestros: Total de accidentes geográficamente cercanos a ese radar.
 - indice_eficiencia (0-100): Qué tan fluido y con volumen es el tramo (más es mejor).
 - indice_riesgo (0-100): Tasa de siniestros normalizada por el volumen (más es peor).
+
+VISUALIZACIONES RECOMENDADAS:
+1. Gráfico de Dispersión (Scatter Plot): 
+   - Eje X: indice_eficiencia, Eje Y: indice_riesgo. (Permite detectar avenidas ineficientes y peligrosas al mismo tiempo).
+2. Tabla / Matriz (Ranking): 
+   - Filas: avenida. Valores: cantidad_siniestros, volumen_total. (Ordenado de mayor a menor para obtener el "Top 10 Peores Avenidas").
+3. Gráfico de Barras Horizontales: 
+   - Eje Y: avenida, Eje X: indice_eficiencia.
 =============================================================================
 """
