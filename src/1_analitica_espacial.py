@@ -171,9 +171,12 @@ if __name__ == "__main__":
 SALIDA PARA POWER BI (tramos_analitica_2022.csv)
 =============================================================================
 Este script genera la base geográfica y las métricas crudas por cuadra/tramo.
-Columnas clave para Power BI:
-- cod_detector / avenida: Para identificar la calle.
-- latitud / longitud: Para graficar en el Mapa de PowerBI.
+TODAS LAS COLUMNAS GENERADAS:
+- detector_id: ID interno del sensor.
+- cod_detector: Código del radar/sensor.
+- avenida: Nombre exacto de la calle/avenida.
+- latitud: Coordenada Y para el Mapa.
+- longitud: Coordenada X para el Mapa.
 - velocidad_media: Promedio anual de velocidad en ese punto.
 - volumen_total: Suma de autos que pasaron por ahí en el año.
 - cantidad_siniestros: Total de accidentes geográficamente cercanos a ese radar.

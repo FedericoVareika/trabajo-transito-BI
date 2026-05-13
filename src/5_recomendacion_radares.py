@@ -82,10 +82,20 @@ if __name__ == "__main__":
 SALIDA PARA POWER BI (recomendacion_radares_2022.csv)
 =============================================================================
 Este script genera un modelo prescriptivo para instalar radares de velocidad.
-Columnas clave para Power BI:
-- score_radar (0-100): Puntuación matemática que indica qué tanto se necesita un radar.
-- prioridad_radar: Etiqueta ("Prioridad Alta (Instalar)", "Media", "Baja").
-- color_radar_powerbi: Colores sugeridos (Rojo, Amarillo, Gris).
+TODAS LAS COLUMNAS GENERADAS:
+- detector_id: ID interno del sensor.
+- cod_detector: Código del radar/sensor.
+- avenida: Nombre exacto de la calle/avenida.
+- latitud: Coordenada Y para el Mapa.
+- longitud: Coordenada X para el Mapa.
+- velocidad_media: Promedio anual de velocidad.
+- volumen_total: Suma de autos anual.
+- cantidad_siniestros: Total de accidentes.
+- indice_eficiencia: Indicador base de fluidez.
+- indice_riesgo: Indicador base de peligrosidad.
+- score_radar (0-100): Puntuación matemática del modelo de fiscalización.
+- prioridad_radar: Etiqueta de decisión ("Prioridad Alta (Instalar)", "Media", "Baja").
+- color_radar_powerbi: Colores sugeridos (Rojo, Amarillo, Gris) para visuales.
 
 VISUALIZACIONES RECOMENDADAS:
 1. Mapa (Mapa de Inversión en Radares):
