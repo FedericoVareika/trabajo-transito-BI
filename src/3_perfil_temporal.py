@@ -59,3 +59,18 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+=============================================================================
+SALIDA PARA POWER BI (perfil_temporal_2022.csv)
+=============================================================================
+Este script genera la tabla de dimensiones temporales para gráficos de tendencia.
+Columnas clave para Power BI:
+- mes, dia_semana, hora: Variables para usar en el Eje X (Línea de tiempo).
+- cod_detector: Para filtrar tendencias de una sola calle usando un Filtro/Slicer.
+- velocidad_media: Útil para el Eje Y de un gráfico de Líneas (ej. ver hora pico).
+- volumen_total: Útil para el Eje Y de un gráfico de Barras (ej. tráfico por hora).
+Nota: Puedes usar el visual de "Gráfico de líneas y columnas agrupadas" para
+ver cómo cae la velocidad a medida que aumentan las columnas de volumen.
+=============================================================================
+"""

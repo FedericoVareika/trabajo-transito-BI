@@ -80,3 +80,18 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+=============================================================================
+SALIDA PARA POWER BI (puntos_criticos_2022.csv)
+=============================================================================
+Este script enriquece la base geográfica con etiquetas de Machine Learning.
+Columnas clave para Power BI:
+- latitud / longitud: Arrastrar a "Latitud" y "Longitud" en el visual de Mapa.
+- categoria_peligrosidad: Arrastrar a "Leyenda" en el Mapa ("Punto Crítico", 
+  "Precaución", "Seguro / Fluido").
+- color_sugerido_powerbi: Seleccionar la burbuja en Formato, elegir "Formato 
+  Condicional" -> "Valor de campo" y usar esta columna para que el mapa se
+  pinte solo de Rojo, Amarillo o Verde según el modelo K-Means.
+=============================================================================
+"""
