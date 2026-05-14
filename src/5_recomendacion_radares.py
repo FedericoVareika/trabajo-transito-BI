@@ -72,7 +72,7 @@ def main():
     
     print(f"\n¡Modelo completado! Archivo guardado en {out_path}")
     print("\nResumen de Recomendaciones:")
-    print(tramos.group_by("prioridad_radar").agg(pl.count().alias("cantidad_calles")).sort("cantidad_calles"))
+    print(tramos.group_by("prioridad_radar").agg(pl.len().alias("cantidad_calles")).sort("cantidad_calles"))
 
 if __name__ == "__main__":
     main()

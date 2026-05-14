@@ -76,7 +76,7 @@ def main():
     
     print(f"\n¡Clasificación exitosa! Archivo guardado en {out_path}")
     print("\nResumen de Puntos Críticos encontrados:")
-    print(tramos.group_by("categoria_peligrosidad").agg(pl.count().alias("cantidad_detectores")))
+    print(tramos.group_by("categoria_peligrosidad").agg(pl.len().alias("cantidad_detectores")))
 
 if __name__ == "__main__":
     main()

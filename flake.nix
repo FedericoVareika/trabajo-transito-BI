@@ -19,8 +19,14 @@
             pip
 
             pyproj
+            scikit-learn
           ]))
         ];
       };
+
+      shellHook = ''
+        # Create a symlink to the python interpreter for the LSP
+        ln -sfn $(which python) .python_interpreter
+      '';
   };
 }
