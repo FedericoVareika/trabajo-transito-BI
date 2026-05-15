@@ -17,9 +17,6 @@ def haversine_vectorized(lat1, lon1, lat2, lon2):
     return c * r
 
 def main():
-    print("Iniciando análisis espacial y cálculo de métricas...")
-
-    print("\n1. Cargando datos...")
     dim_detector = pl.read_csv(os.path.join(DATA_DIR, "dim_detector.csv"))
     dim_ubicacion = pl.read_csv(os.path.join(DATA_DIR, "dim_ubicacion.csv"))
 
@@ -29,8 +26,6 @@ def main():
     except FileNotFoundError as e:
         print(f"Error: No se encontraron archivos estandarizados. Ejecuta el pipeline primero. Detalles: {e}")
         return
-
-    print("\n2. Agrupando métricas de Velocidad y Volumen por detector...")
 
     stats_detector = (
         fact_medicion
@@ -46,10 +41,6 @@ def main():
     tramos = dim_detector.join(
         stats_detector, on="codigo", how="left"
     ).fill_null(strategy="zero").rename({"codigo": "cod_detector"})
-
-    print(f"   {tramos.height} detectores con datos")
-
-    print("\n3. Realizando Cruce Espacial: Asignando siniestros al detector más cercano...")
 
     fact_siniestros = fact_siniestros.join(
         dim_ubicacion.select(["id", "latitud", "longitud"]),
@@ -100,8 +91,6 @@ def main():
     tramos = tramos.join(stats_siniestros, on="cod_detector", how="left")
     tramos = tramos.fill_null(strategy="zero")
 
-    print("\n4. Calculando Índices de Eficiencia y Riesgo...")
-
     max_vol = tramos["volumen_total"].max()
     max_vel = tramos["velocidad_media"].max()
 
@@ -128,51 +117,5 @@ def main():
     out_path = os.path.join(OUTPUT_DIR, "tramos_analitica_2022.csv")
     tramos.write_csv(out_path)
 
-    print(f"\nProceso completado! Archivo exportado a: {out_path}")
-    print(f"Total de tramos analizados: {tramos.height}")
-    print("Muestra de los datos:")
-    print(tramos.head())
-
 if __name__ == "__main__":
     main()
-
-"""
-=============================================================================
-SALIDA PARA POWER BI (tramos_analitica_2022.csv)
-=============================================================================
-Este script consolida métricas de velocidad, volumen y siniestros por
-detector, y calcula índices compuestos de eficiencia y riesgo.
-
-TODAS LAS COLUMNAS GENERADAS:
-- id: ID interno del detector.
-- cod_detector: Código del radar/sensor.
-- avenida: Nombre de la avenida/calle.
-- int_anterior: Intersección anterior.
-- int_siguiente: Intersección siguiente.
-- latitud: Coordenada Y para el Mapa.
-- longitud: Coordenada X para el Mapa.
-- velocidad_media: Velocidad promedio anual.
-- volumen_total: Suma de autos anual.
-- cantidad_siniestros: Total de accidentes geográficamente cercanos.
-- indice_eficiencia (0-100): Indicador base de fluidez.
-- indice_riesgo (0-100): Indicador base de peligrosidad.
-
-VISUALIZACIONES RECOMENDADAS:
-1. Mapa de Calor de Riesgo:
-   - Ubicación: latitud y longitud. Tamaño: cantidad_siniestros.
-     Color: indice_riesgo (gradiente). (Para ver dónde están los
-     puntos más peligrosos de Montevideo).
-2. Dispersión (Scatter Chart):
-   - Eje X: indice_eficiencia. Eje Y: indice_riesgo.
-     Leyenda: avenida. (Para identificar correlación entre
-     fluidez y siniestralidad por calle).
-3. Tabla de Top Prioridades:
-   - Filas: avenida. Valores: cod_detector, velocidad_media,
-     volumen_total, cantidad_siniestros, indice_riesgo.
-   - Filtro: indice_riesgo > 50. (Para generar un reporte
-     ejecutivo de los detectores más críticos).
-4. Segmentador (Slicer):
-   - Campo: avenida. (Filtro maestro para aislar una calle
-     específica y ver todas sus métricas).
-=============================================================================
-"""
