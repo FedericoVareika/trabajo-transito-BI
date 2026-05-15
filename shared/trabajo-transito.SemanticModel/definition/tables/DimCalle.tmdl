@@ -1,0 +1,37 @@
+table DimCalle
+	lineageTag: 64d63dda-338c-41ac-8763-2773b5234aae
+
+	column id
+		dataType: int64
+		lineageTag: 86e92d7c-e20b-4683-8705-1b31a50e1da4
+		sourceColumn: id
+
+	column ubicacion
+		dataType: int64
+		lineageTag: 0abd51fc-53c3-4fe8-a26c-0fd4512d0ae7
+		sourceColumn: ubicacion
+
+	column nombre
+		dataType: string
+		lineageTag: b02cdeed-137c-431f-9a00-9e1c211d7c43
+		sourceColumn: nombre
+
+	partition DimCalle-Partition = m
+		mode: import
+		source =
+								let
+								    Source = Csv.Document(File.Contents("Z:\data\estandarizado\dim_calle.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+								    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				                    ColNames = Table.ColumnNames(PromotedHeaders),
+				
+				                    AllText = Table.TransformColumnTypes(PromotedHeaders, List.Transform(ColNames, each {_, type text})),
+				                    CleanedText = Table.TransformColumns(AllText, List.Transform(ColNames, each {_, each Text.Clean(Text.Trim(_)), type text})),
+				                    CleanedBlanks = Table.ReplaceValue(CleanedText, "", null, Replacer.ReplaceValue, ColNames),
+				                    TypedNumbers = Table.TransformColumnTypes(CleanedBlanks,{{"id", Int64.Type}, {"ubicacion", Int64.Type}})
+				                in
+				                    TypedNumbers
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

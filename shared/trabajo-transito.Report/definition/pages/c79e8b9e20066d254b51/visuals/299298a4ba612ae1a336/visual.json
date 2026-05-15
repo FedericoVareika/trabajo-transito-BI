@@ -1,0 +1,107 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "299298a4ba612ae1a336",
+  "position": {
+    "x": 743,
+    "y": 295,
+    "z": 3000,
+    "height": 324,
+    "width": 537,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TramosAnalitica2022"
+                    }
+                  },
+                  "Property": "avenida"
+                }
+              },
+              "queryRef": "TramosAnalitica2022.avenida",
+              "nativeQueryRef": "avenida"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "TramosAnalitica2022"
+                        }
+                      },
+                      "Property": "indice_eficiencia"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(TramosAnalitica2022.indice_eficiencia)",
+              "nativeQueryRef": "Sum of indice_eficiencia",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "TramosAnalitica2022"
+                        }
+                      },
+                      "Property": "indice_riesgo"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(TramosAnalitica2022.indice_riesgo)",
+              "nativeQueryRef": "Sum of indice_riesgo"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "legend": [
+        {
+          "properties": {
+            "showGradientLegend": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

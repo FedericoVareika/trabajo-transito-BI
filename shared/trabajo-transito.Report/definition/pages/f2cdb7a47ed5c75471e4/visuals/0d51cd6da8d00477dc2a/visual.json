@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "0d51cd6da8d00477dc2a",
+  "position": {
+    "x": 1049.1828793774318,
+    "y": 477.66536964980543,
+    "z": 2000,
+    "height": 141.47859922178989,
+    "width": 231.1284046692607,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PuntosCriticos2022"
+                    }
+                  },
+                  "Property": "categoria_peligrosidad"
+                }
+              },
+              "queryRef": "PuntosCriticos2022.categoria_peligrosidad",
+              "nativeQueryRef": "categoria_peligrosidad",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Basic'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -135,3 +135,44 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+=============================================================================
+SALIDA PARA POWER BI (tramos_analitica_2022.csv)
+=============================================================================
+Este script consolida métricas de velocidad, volumen y siniestros por
+detector, y calcula índices compuestos de eficiencia y riesgo.
+
+TODAS LAS COLUMNAS GENERADAS:
+- id: ID interno del detector.
+- cod_detector: Código del radar/sensor.
+- avenida: Nombre de la avenida/calle.
+- int_anterior: Intersección anterior.
+- int_siguiente: Intersección siguiente.
+- latitud: Coordenada Y para el Mapa.
+- longitud: Coordenada X para el Mapa.
+- velocidad_media: Velocidad promedio anual.
+- volumen_total: Suma de autos anual.
+- cantidad_siniestros: Total de accidentes geográficamente cercanos.
+- indice_eficiencia (0-100): Indicador base de fluidez.
+- indice_riesgo (0-100): Indicador base de peligrosidad.
+
+VISUALIZACIONES RECOMENDADAS:
+1. Mapa de Calor de Riesgo:
+   - Ubicación: latitud y longitud. Tamaño: cantidad_siniestros.
+     Color: indice_riesgo (gradiente). (Para ver dónde están los
+     puntos más peligrosos de Montevideo).
+2. Dispersión (Scatter Chart):
+   - Eje X: indice_eficiencia. Eje Y: indice_riesgo.
+     Leyenda: avenida. (Para identificar correlación entre
+     fluidez y siniestralidad por calle).
+3. Tabla de Top Prioridades:
+   - Filas: avenida. Valores: cod_detector, velocidad_media,
+     volumen_total, cantidad_siniestros, indice_riesgo.
+   - Filtro: indice_riesgo > 50. (Para generar un reporte
+     ejecutivo de los detectores más críticos).
+4. Segmentador (Slicer):
+   - Campo: avenida. (Filtro maestro para aislar una calle
+     específica y ver todas sus métricas).
+=============================================================================
+"""

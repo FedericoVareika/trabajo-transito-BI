@@ -1,0 +1,42 @@
+relationship DimCalle_DimUbicacion
+	fromColumn: DimCalle.ubicacion
+	toColumn: DimUbicacion.id
+
+relationship FactMedicion_DimDetector
+	fromColumn: FactMedicion.detector_id
+	toColumn: DimDetector.id
+
+relationship FactMedicion_DimFecha
+	fromColumn: FactMedicion.fecha_id
+	toColumn: DimFecha.id
+
+relationship FactSiniestros_DimUbicacion
+	fromColumn: FactSiniestros.ubicacion_id
+	toColumn: DimUbicacion.id
+
+relationship FactSiniestros_DimFecha
+	fromColumn: FactSiniestros.fecha_id
+	toColumn: DimFecha.id
+
+relationship ec70d106-c80a-259d-e360-067b86e6ca0a
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DimDetector.codigo
+	toColumn: PuntosCriticos2022.cod_detector
+
+relationship c54cdc07-bffc-b21c-3bd2-85ff6eccd56b
+	fromColumn: PerfilTemporal2022.cod_detector
+	toColumn: DimDetector.codigo
+
+relationship 892b1247-83ae-d857-4858-f0ed290311de
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DimDetector.codigo
+	toColumn: RecomendacionRadares2022.cod_detector
+
+relationship 24754091-96b3-192d-f906-8e4a39a217cd
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DimDetector.codigo
+	toColumn: TramosAnalitica2022.cod_detector
+

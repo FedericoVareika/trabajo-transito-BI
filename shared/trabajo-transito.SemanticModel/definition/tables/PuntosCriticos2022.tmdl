@@ -1,0 +1,134 @@
+table PuntosCriticos2022
+	lineageTag: 917e38f6-90f6-4586-a3cb-4e8b315029aa
+
+	column id
+		dataType: int64
+		lineageTag: 8e76ad78-55bc-469d-84c7-6d4d29816808
+		summarizeBy: sum
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_detector
+		dataType: int64
+		lineageTag: a38af2fd-ba57-4353-b0f5-dc71030ab5b3
+		summarizeBy: none
+		sourceColumn: cod_detector
+
+		annotation SummarizationSetBy = Automatic
+
+	column avenida
+		dataType: string
+		lineageTag: 38eecb84-d1d4-478f-9018-c5eec83b9c51
+		summarizeBy: none
+		sourceColumn: avenida
+
+		annotation SummarizationSetBy = Automatic
+
+	column int_anterior
+		dataType: string
+		lineageTag: d11d3f29-8161-4a3f-95b0-2aa935cbbf83
+		summarizeBy: none
+		sourceColumn: int_anterior
+
+		annotation SummarizationSetBy = Automatic
+
+	column int_siguiente
+		dataType: string
+		lineageTag: 8459aede-d31a-434f-aa7b-a16012442d57
+		summarizeBy: none
+		sourceColumn: int_siguiente
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitud
+		dataType: double
+		lineageTag: 740aba4a-df3d-4140-81f4-e6b9eec3e587
+		summarizeBy: sum
+		sourceColumn: latitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitud
+		dataType: double
+		lineageTag: 0f6a513b-dbc9-4160-b6aa-64475588a8bd
+		summarizeBy: sum
+		sourceColumn: longitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column velocidad_media
+		dataType: double
+		lineageTag: 5a96b5ec-787c-4979-97cf-5078971e4f8d
+		summarizeBy: sum
+		sourceColumn: velocidad_media
+
+		annotation SummarizationSetBy = Automatic
+
+	column volumen_total
+		dataType: int64
+		lineageTag: 9954d453-0399-4e69-b4c8-9f7724ffe0bc
+		summarizeBy: sum
+		sourceColumn: volumen_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column cantidad_siniestros
+		dataType: int64
+		lineageTag: 8e3df4f6-3033-41db-8e4a-fd11192d2be3
+		summarizeBy: sum
+		sourceColumn: cantidad_siniestros
+
+		annotation SummarizationSetBy = Automatic
+
+	column indice_eficiencia
+		dataType: double
+		lineageTag: 5ef5a970-312b-4fcf-947b-a8e366fdd7e6
+		summarizeBy: sum
+		sourceColumn: indice_eficiencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column indice_riesgo
+		dataType: double
+		lineageTag: 910ab9bf-7853-4079-971e-f3c3e1b3de28
+		summarizeBy: sum
+		sourceColumn: indice_riesgo
+
+		annotation SummarizationSetBy = Automatic
+
+	column categoria_peligrosidad
+		dataType: string
+		lineageTag: a72cca26-8f2d-4e02-8f53-5c96e6af446f
+		summarizeBy: none
+		sourceColumn: categoria_peligrosidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column color_sugerido_powerbi
+		dataType: string
+		lineageTag: 5982052d-d74a-4035-b371-011afbf41483
+		summarizeBy: none
+		sourceColumn: color_sugerido_powerbi
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PuntosCriticos2022-Partition = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("Z:\data\analitica\puntos_criticos_2022.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    ColNames = Table.ColumnNames(PromotedHeaders),
+				
+				    AllText = Table.TransformColumnTypes(PromotedHeaders, List.Transform(ColNames, each {_, type text})),
+				    CleanedText = Table.TransformColumns(AllText, List.Transform(ColNames, each {_, each Text.Clean(Text.Trim(_)), type text})),
+				    CleanedBlanks = Table.ReplaceValue(CleanedText, "", null, Replacer.ReplaceValue, ColNames),
+				    TypedNumbers = Table.TransformColumnTypes(CleanedBlanks,{{"id", Int64.Type}, {"cod_detector", Int64.Type}, {"volumen_total", Int64.Type}, {"cantidad_siniestros", Int64.Type}, {"latitud", Double.Type}, {"longitud", Double.Type}, {"velocidad_media", Double.Type}, {"indice_eficiencia", Double.Type}, {"indice_riesgo", Double.Type}})
+				in
+				    TypedNumbers
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

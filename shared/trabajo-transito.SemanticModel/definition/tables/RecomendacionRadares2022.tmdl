@@ -1,0 +1,142 @@
+table RecomendacionRadares2022
+	lineageTag: 9a28be35-2305-4666-8e4c-fc118e9e91f3
+
+	column id
+		dataType: int64
+		lineageTag: d89575c7-7b05-421a-996a-6760dcd1941b
+		summarizeBy: sum
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_detector
+		dataType: int64
+		lineageTag: 38003406-beff-4e6b-97de-6180115e72e1
+		summarizeBy: none
+		sourceColumn: cod_detector
+
+		annotation SummarizationSetBy = Automatic
+
+	column avenida
+		dataType: string
+		lineageTag: d0125ac1-1df7-4548-9a3f-db5744f498da
+		summarizeBy: none
+		sourceColumn: avenida
+
+		annotation SummarizationSetBy = Automatic
+
+	column int_anterior
+		dataType: string
+		lineageTag: 7445683b-d202-4f93-aaac-34f1b20bfaa6
+		summarizeBy: none
+		sourceColumn: int_anterior
+
+		annotation SummarizationSetBy = Automatic
+
+	column int_siguiente
+		dataType: string
+		lineageTag: 0fb0b65c-9010-467d-9e51-bc4abd8d8cc1
+		summarizeBy: none
+		sourceColumn: int_siguiente
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitud
+		dataType: double
+		lineageTag: 83ffd2f5-4222-404b-b809-eb181b5f4e72
+		summarizeBy: sum
+		sourceColumn: latitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitud
+		dataType: double
+		lineageTag: d73ae212-898d-4a0a-a5b5-b0aa35654f76
+		summarizeBy: sum
+		sourceColumn: longitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column velocidad_media
+		dataType: double
+		lineageTag: 69952274-b5bf-48bd-8947-f4580f8e7ac1
+		summarizeBy: sum
+		sourceColumn: velocidad_media
+
+		annotation SummarizationSetBy = Automatic
+
+	column volumen_total
+		dataType: int64
+		lineageTag: cfd9f31f-83ff-48c9-9168-f791cc6bcd11
+		summarizeBy: sum
+		sourceColumn: volumen_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column cantidad_siniestros
+		dataType: int64
+		lineageTag: 6a1104f8-d663-4e3c-baff-89766d861fa0
+		summarizeBy: sum
+		sourceColumn: cantidad_siniestros
+
+		annotation SummarizationSetBy = Automatic
+
+	column indice_eficiencia
+		dataType: double
+		lineageTag: 8e85272d-d8ca-409c-ac85-c569f3e40592
+		summarizeBy: sum
+		sourceColumn: indice_eficiencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column indice_riesgo
+		dataType: double
+		lineageTag: 8efddae4-4285-426d-ae72-0c0866f4ef80
+		summarizeBy: sum
+		sourceColumn: indice_riesgo
+
+		annotation SummarizationSetBy = Automatic
+
+	column score_radar
+		dataType: double
+		lineageTag: 80c333a2-5a3a-43bc-9622-318b8cccc50f
+		summarizeBy: sum
+		sourceColumn: score_radar
+
+		annotation SummarizationSetBy = Automatic
+
+	column prioridad_radar
+		dataType: string
+		lineageTag: 2493f664-fe91-4696-8d15-72edec9c22c3
+		summarizeBy: none
+		sourceColumn: prioridad_radar
+
+		annotation SummarizationSetBy = Automatic
+
+	column color_radar_powerbi
+		dataType: string
+		lineageTag: 32b9a21d-cb95-49c1-bc39-f5ba3fbd2684
+		summarizeBy: none
+		sourceColumn: color_radar_powerbi
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RecomendacionRadares2022-Partition = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("Z:\data\analitica\recomendacion_radares_2022.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    ColNames = Table.ColumnNames(PromotedHeaders),
+				
+				    AllText = Table.TransformColumnTypes(PromotedHeaders, List.Transform(ColNames, each {_, type text})),
+				    CleanedText = Table.TransformColumns(AllText, List.Transform(ColNames, each {_, each Text.Clean(Text.Trim(_)), type text})),
+				    CleanedBlanks = Table.ReplaceValue(CleanedText, "", null, Replacer.ReplaceValue, ColNames),
+				    TypedNumbers = Table.TransformColumnTypes(CleanedBlanks,{{"id", Int64.Type}, {"cod_detector", Int64.Type}, {"volumen_total", Int64.Type}, {"cantidad_siniestros", Int64.Type}, {"latitud", Double.Type}, {"longitud", Double.Type}, {"velocidad_media", Double.Type}, {"indice_eficiencia", Double.Type}, {"indice_riesgo", Double.Type}, {"score_radar", Double.Type}})
+				in
+				    TypedNumbers
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

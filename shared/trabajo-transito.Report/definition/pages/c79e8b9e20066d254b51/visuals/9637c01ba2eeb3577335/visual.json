@@ -1,0 +1,114 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "9637c01ba2eeb3577335",
+  "position": {
+    "x": 743.41463414634154,
+    "y": 0,
+    "z": 2000,
+    "height": 294.63414634146346,
+    "width": 536.58536585365857,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TramosAnalitica2022"
+                    }
+                  },
+                  "Property": "volumen_total (bins)"
+                }
+              },
+              "queryRef": "TramosAnalitica2022.volumen_total (bins)",
+              "nativeQueryRef": "volumen_total (bins)",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "TramosAnalitica2022"
+                        }
+                      },
+                      "Property": "cod_detector"
+                    }
+                  },
+                  "Function": 2
+                }
+              },
+              "queryRef": "Count(TramosAnalitica2022.cod_detector)",
+              "nativeQueryRef": "Count of cod_detector"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "TramosAnalitica2022"
+                      }
+                    },
+                    "Property": "cod_detector"
+                  }
+                },
+                "Function": 2
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "axisType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Scalar'"
+                }
+              }
+            },
+            "logAxisScale": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "invertAxis": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,47 @@
+table DimUbicacion
+	lineageTag: 71db630b-ccbf-4633-8692-8e575c5657b3
+
+	column id
+		dataType: int64
+		lineageTag: 6cd46b07-996c-4daa-8941-808cbcfbec9d
+		sourceColumn: id
+
+	column descripcion
+		dataType: string
+		lineageTag: d0195519-6b27-4c87-8290-cc7e17872073
+		sourceColumn: descripcion
+
+	column latitud
+		dataType: double
+		lineageTag: 86a08b48-e521-4639-a6b1-c81c38d2edba
+		sourceColumn: latitud
+
+	column longitud
+		dataType: double
+		lineageTag: 05f45e71-c9ec-4455-9251-f1be72d2ebf6
+		sourceColumn: longitud
+
+	column tipo
+		dataType: string
+		lineageTag: 95dbe6e7-9f72-435b-a7df-b16bcb492eae
+		sourceColumn: tipo
+
+	partition DimUbicacion-Partition = m
+		mode: import
+		source =
+								let
+								    Source = Csv.Document(File.Contents("Z:\data\estandarizado\dim_ubicacion.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+								    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				                    ColNames = Table.ColumnNames(PromotedHeaders),
+				
+				                    AllText = Table.TransformColumnTypes(PromotedHeaders, List.Transform(ColNames, each {_, type text})),
+				                    CleanedText = Table.TransformColumns(AllText, List.Transform(ColNames, each {_, each Text.Clean(Text.Trim(_)), type text})),
+				                    CleanedBlanks = Table.ReplaceValue(CleanedText, "", null, Replacer.ReplaceValue, ColNames),
+				                    TypedNumbers = Table.TransformColumnTypes(CleanedBlanks,{{"id", Int64.Type}, {"latitud", Double.Type}, {"longitud", Double.Type}})
+				                in
+				                    TypedNumbers
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,165 @@
+table TramosAnalitica2022
+	lineageTag: 13cf866f-084c-4299-bcc8-a04fd53bad3f
+
+	column id
+		dataType: int64
+		lineageTag: 183e3cbc-31ee-4d28-8e16-a2144e85b8c3
+		summarizeBy: sum
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_detector
+		dataType: int64
+		lineageTag: 62999f0b-6c8d-461f-a933-ed6d1b396519
+		summarizeBy: none
+		sourceColumn: cod_detector
+
+		annotation SummarizationSetBy = Automatic
+
+	column avenida
+		dataType: string
+		lineageTag: d0c32fb1-e5a5-4f38-924c-9f0ffbb522bd
+		summarizeBy: none
+		sourceColumn: avenida
+
+		annotation SummarizationSetBy = Automatic
+
+	column int_anterior
+		dataType: string
+		lineageTag: 130e0a0f-795e-44ef-a8d2-09d90a060b91
+		summarizeBy: none
+		sourceColumn: int_anterior
+
+		annotation SummarizationSetBy = Automatic
+
+	column int_siguiente
+		dataType: string
+		lineageTag: b37bb189-a51e-4db0-a927-a783ed256a9d
+		summarizeBy: none
+		sourceColumn: int_siguiente
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitud
+		dataType: double
+		lineageTag: 01bfde8a-6f40-428d-a126-eb6c77c072b2
+		summarizeBy: sum
+		sourceColumn: latitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitud
+		dataType: double
+		lineageTag: 37d1103c-f03a-49ca-9606-abce81b532c4
+		summarizeBy: sum
+		sourceColumn: longitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column velocidad_media
+		dataType: double
+		lineageTag: 9428869d-c4bd-48f4-adec-e53ac83e551b
+		summarizeBy: sum
+		sourceColumn: velocidad_media
+
+		annotation SummarizationSetBy = Automatic
+
+	column volumen_total
+		dataType: int64
+		lineageTag: bd830a08-7137-425a-a0b9-156f7d4bb89e
+		summarizeBy: sum
+		sourceColumn: volumen_total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"TramosAnalitica2022","TableItemName":"volumen_total (bins)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column cantidad_siniestros
+		dataType: int64
+		lineageTag: e5c4a5f5-fde8-4a06-a7de-6fe1491b2ed3
+		summarizeBy: sum
+		sourceColumn: cantidad_siniestros
+
+		annotation SummarizationSetBy = Automatic
+
+	column indice_eficiencia
+		dataType: double
+		lineageTag: 52c132e5-1561-4379-b3a5-f701e9c33a10
+		summarizeBy: sum
+		sourceColumn: indice_eficiencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column indice_riesgo
+		dataType: double
+		lineageTag: 34513f18-9289-4b33-9a7b-95e2ee5b7045
+		summarizeBy: sum
+		sourceColumn: indice_riesgo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'volumen_total (bins)' =
+			VAR __Count = 12
+			
+			VAR __Min = MIN('TramosAnalitica2022'[volumen_total])
+			
+			VAR __Max = MAX('TramosAnalitica2022'[volumen_total])
+			
+			VAR __Difference = (__Max - __Min)
+			
+			VAR __Size = IF(__Difference > 0, __Difference / __Count, 1)
+			
+			VAR __BinNumber = INT(('TramosAnalitica2022'[volumen_total] - __Min) / __Size)
+			
+			RETURN
+				IF(
+					ISBLANK('TramosAnalitica2022'[volumen_total]),
+					BLANK(),
+					__Min + (MIN(__BinNumber, __Count - 1) * __Size)
+				)
+		lineageTag: 2f650caa-7c0b-4511-8aef-a58b5aaf5ccd
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "TramosAnalitica2022"
+				          }
+				        },
+				        "Property": "volumen_total"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"t","Entity":"TramosAnalitica2022"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"t"}},"Property":"volumen_total"}}],"BinItem":{"Expression":{"Member":{"Expression":{"Discretize":{"Expression":{"Column":{"Expression":{"SourceRef":{"Source":"t"}},"Property":"volumen_total"}},"Count":12}},"Member":"Min"}}}}
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition TramosAnalitica2022-Partition = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("Z:\data\analitica\tramos_analitica_2022.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    ColNames = Table.ColumnNames(PromotedHeaders),
+				
+				    AllText = Table.TransformColumnTypes(PromotedHeaders, List.Transform(ColNames, each {_, type text})),
+				    CleanedText = Table.TransformColumns(AllText, List.Transform(ColNames, each {_, each Text.Clean(Text.Trim(_)), type text})),
+				    CleanedBlanks = Table.ReplaceValue(CleanedText, "", null, Replacer.ReplaceValue, ColNames),
+				    TypedNumbers = Table.TransformColumnTypes(CleanedBlanks,{{"id", Int64.Type}, {"cod_detector", Int64.Type}, {"volumen_total", Int64.Type}, {"cantidad_siniestros", Int64.Type}, {"latitud", Double.Type}, {"longitud", Double.Type}, {"velocidad_media", Double.Type}, {"indice_eficiencia", Double.Type}, {"indice_riesgo", Double.Type}})
+				in
+				    TypedNumbers
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

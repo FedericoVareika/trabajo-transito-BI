@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "trabajo-transito"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "218c57eb-342e-4f21-82bf-8a995a98ac81"
+  }
+}

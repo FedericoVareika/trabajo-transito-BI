@@ -1,0 +1,183 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "d6b830e267979843de41",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "height": 483.90243902439028,
+    "width": 595.1219512195122,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PerfilTemporal2022"
+                    }
+                  },
+                  "Property": "hora"
+                }
+              },
+              "queryRef": "PerfilTemporal2022.hora",
+              "nativeQueryRef": "Sum of hora",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PerfilTemporal2022"
+                    }
+                  },
+                  "Property": "dia_semana"
+                }
+              },
+              "queryRef": "PerfilTemporal2022.dia_semana",
+              "nativeQueryRef": "dia_semana"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PerfilTemporal2022"
+                        }
+                      },
+                      "Property": "volumen_total"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(PerfilTemporal2022.volumen_total)",
+              "nativeQueryRef": "Sum of volumen_total"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "PerfilTemporal2022"
+                      }
+                    },
+                    "Property": "volumen_total"
+                  }
+                },
+                "Function": 0
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "legend": [
+        {
+          "properties": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'BottomCenter'"
+                }
+              }
+            },
+            "legendMarkerRendering": {
+              "expr": {
+                "Literal": {
+                  "Value": "'markerCircleDefault'"
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "ac6eb27df54272326e76",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "PerfilTemporal2022"
+              }
+            },
+            "Property": "hora"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "40d446f96929181cc925",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "PerfilTemporal2022"
+                  }
+                },
+                "Property": "volumen_total"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "af3a6d288f838b979b0f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "PerfilTemporal2022"
+              }
+            },
+            "Property": "dia_semana"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

@@ -21,6 +21,7 @@
             pyproj
             scikit-learn
           ]))
+          dotnet-sdk
         ];
       };
 

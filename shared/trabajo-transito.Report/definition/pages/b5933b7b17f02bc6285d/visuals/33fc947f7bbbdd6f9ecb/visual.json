@@ -1,0 +1,319 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "33fc947f7bbbdd6f9ecb",
+  "position": {
+    "x": 10.578512396694215,
+    "y": 0,
+    "z": 0,
+    "height": 719.33884297520672,
+    "width": 668.20936639118463,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "azureMap",
+    "query": {
+      "queryState": {
+        "PathID": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RecomendacionRadares2022"
+                    }
+                  },
+                  "Property": "cod_detector"
+                }
+              },
+              "queryRef": "RecomendacionRadares2022.cod_detector",
+              "nativeQueryRef": "cod_detector"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RecomendacionRadares2022"
+                    }
+                  },
+                  "Property": "prioridad_radar"
+                }
+              },
+              "queryRef": "RecomendacionRadares2022.prioridad_radar",
+              "nativeQueryRef": "prioridad_radar"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RecomendacionRadares2022"
+                        }
+                      },
+                      "Property": "score_radar"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Sum(RecomendacionRadares2022.score_radar)",
+              "nativeQueryRef": "Average of score_radar"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RecomendacionRadares2022"
+                    }
+                  },
+                  "Property": "longitud"
+                }
+              },
+              "queryRef": "RecomendacionRadares2022.longitud",
+              "nativeQueryRef": "longitud"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RecomendacionRadares2022"
+                    }
+                  },
+                  "Property": "latitud"
+                }
+              },
+              "queryRef": "RecomendacionRadares2022.latitud",
+              "nativeQueryRef": "latitud"
+            }
+          ]
+        }
+      },
+      "isDrillDisabled": true
+    },
+    "objects": {
+      "mapControls": [
+        {
+          "properties": {
+            "zoom": {
+              "expr": {
+                "Literal": {
+                  "Value": "11.33D"
+                }
+              }
+            },
+            "centerLatitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "-34.86869835996111D"
+                }
+              }
+            },
+            "centerLongitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "-56.16461749999996D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "traffic": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showIncidents": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showTrafficControl": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "bubbleLayer": [
+        {
+          "properties": {
+            "maxRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "20L"
+                }
+              }
+            },
+            "minBubbleRadius": {
+              "expr": {
+                "Literal": {
+                  "Value": "3L"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 9,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "RecomendacionRadares2022"
+                          }
+                        },
+                        "Property": "prioridad_radar"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Prioridad Alta (Instalar)'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 8,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "RecomendacionRadares2022"
+                          }
+                        },
+                        "Property": "prioridad_radar"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Prioridad Media (Monitorear)'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#3BE635'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "RecomendacionRadares2022"
+                          }
+                        },
+                        "Property": "prioridad_radar"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Prioridad Baja (Seguro)'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,161 @@
+\section{Arquitectura de Datos: Proceso de Extracción, Transformación y Carga (ETL)}
+
+Para procesar los datos, usamos un modelo de Esquema de Constelaci\'on,
+y luego para el an\'alisis, juntamos todos los datos para la tabla del
+an\'alisis correspondiente. 
+La idea es tener una buena base para poder analizar con python 
+de manera eficiente. Las tablas estandarizadas est\'an separadas en
+tablas de dimensi\'on (\texttt{dim\_*.csv}) y tablas de hechos 
+(\texttt{fact\_*.csv}).
+
+\subsection{Carga de datos}
+
+Los datasets usados son los siguientes:
+\begin{itemize}[noitemsep]
+    \item \href{https://catalogodatos.gub.uy/dataset/velocidad-promedio-vehicular-en-las-principales-avenidas-de-montevideo}{Velocidad promedio}
+    \item \href{https://catalogodatos.gub.uy/dataset/conteo-vehicular-en-las-principales-avenidas-de-montevideo}{Conteo vehicular}
+    \item \href{https://catalogodatos.gub.uy/dataset/base-anual-de-personas-lesionadas-en-siniestros-de-transito}{Lesionados en siniestros}
+\end{itemize}
+
+La carga de datos se realiza autom\'aticamente con el script \texttt{descargar\_con\_fechas.py}.
+
+\subsection{Construcción de Dimensiones (\texttt{build\_dim\_*.py})}
+
+Los módulos de dimensión procesan los datos crudos para extraer entidades
+descriptivas, normalizar sus atributos y asignarles claves 
+(IDs numéricos enteros). 
+Este proceso garantiza la integridad referencial del modelo de datos y elimina
+la redundancia de datos almacenados.
+
+\subsubsection*{Script: \texttt{build\_dim\_calle.py}}
+Este script genera un catálogo único y estandarizado de todas las calles de la
+ciudad. 
+Toma como entrada la dimensión de ubicaciones base y extrae la columna
+descriptiva original, la cual frecuentemente contiene cadenas compuestas de 
+intersecciones viales (ej. ``Avenida A / Calle B'' o ``Calle C esq. Calle D'').
+
+El procesamiento ejecuta las siguientes limpiezas:
+\begin{itemize}[noitemsep]
+    \item \textbf{Fragmentación de Cadenas}: 
+        Divide el texto iterando sobre delimitadores como `` / '' y `` esq. ''.
+    \item \textbf{Estandarización de Texto}:
+        Elimina espacios en blanco residuales y lleva todo el texto a letras 
+        mayúsculas.
+    \item \textbf{Filtrado de Anomalías}:
+        Aplica una expresión regular 
+        (\textrm{r`\string^-?\textbackslash d+\textbackslash.?\textbackslash d*\$'}) 
+        para detectar y descartar fragmentos que consisten puramente en números,
+        los cuales representan errores de tipeo o marcadores kilométricos 
+        inválidos como nombres de calles.
+    \item \textbf{Indexación}: 
+        Agrupa los valores para asegurar la unicidad y asigna un identificador
+        secuencial (\texttt{calle\_id}), exportando el resultado al archivo
+        \texttt{dim\_calle.csv}.
+\end{itemize}
+
+\subsubsection*{Script: \texttt{build\_dim\_fecha.py}}
+
+Este script crea una tabla de calendario completa para desglosar cualquier fecha
+por año, mes o día. 
+No asume un solo formato de datos porque los archivos del gobierno siempre
+varían en ese sentido.
+\begin{itemize}[noitemsep]
+    \item \textbf{Consolidación Multi-Fuente}:
+        Itera sobre los directorios de velocidad, conteo vehicular y siniestros.
+        Para los siniestros, aplica un mapeo de columnas específico 
+        (SIN\_MAPPING) debido a discrepancias en el esquema de origen.
+    \item \textbf{Conversión Temporal}:
+        Convierte el texto crudo al tipo datetime.
+    \item \textbf{Derivación de Atributos}:
+        Tras obtener un listado único y cronológico de todas las fechas 
+        registradas, el algoritmo extrae directamente del objeto datetime tres 
+        nuevas columnas de análisis: el año (anio), el mes numérico (mes) y el 
+        día (dia). Finalmente, asigna una clave primaria.
+\end{itemize}
+
+\subsubsection*{Script: \texttt{build\_dim\_detector.py}}
+\begin{itemize}[noitemsep]
+    \item \textbf{Extracción de Metadata}:
+        Selecciona el código natural del detector y sus descriptores geográficos
+        (avenida, intersección anterior e intersección siguiente).
+    \item \textbf{Casteo de Precisión}:
+        Fuerza la conversión de los tipos de datos de latitud y longitud a
+        Float64 explícitamente.
+    \item \textbf{Renombramiento Estructural}:
+        Limpia los nombres de las columnas, eliminando prefijos innecesarios 
+        (\texttt{dsc\_}), y exporta la tabla única de sensores con su 
+        respectivo ID.
+\end{itemize}
+
+\subsubsection*{Script: \texttt{build\_dim\_ubicacion.py}}
+
+Este script unifica dos tipos de coordenadas a uno, consolidando los datos en
+una tabla diferenciada por el \texttt{tipo}.
+\begin{itemize}[noitemsep]
+    \item \textbf{Procesamiento de Coordenadas GPS}: 
+        Para los datos de flujo vehicular, extrae directamente la latitud y
+        longitud y asigna el identificador categórico \texttt{tipo = `avenida'}.
+    \item \textbf{Transformación de Coordenadas UTM}:
+        El dataset de siniestros no provee latitud y longitud, sino coordenadas
+        planas en formato UTM (x, y). 
+        El script usa la funci\'on \texttt{utm\_to\_latlon} para pasar de UTM a 
+        latitud y longitud. 
+        A estos puntos les asigna el indicador \texttt{tipo = `calle\_siniestro'}.
+    \item \textbf{Agrupación y Fusión de Descripciones}:
+        Consolida todos los puntos en un único DataFrame.
+        Si múltiples sensores o accidentes comparten las mismas coordenadas, 
+        agrupa el registro fusionando las descripciones de texto para no 
+        perder contexto, asignando luego la llave primaria final.
+\end{itemize}
+
+\subsection{Construcción de Hechos (\texttt{build\_fact\_*.py})}
+
+Los módulos de hechos se encargan de consolidar el volumen alto de datos del
+sistema. Su función principal es reemplazar los datos que ya consolidamos en 
+las tablas de dimensi\'on por los identificadores correspondientes.
+
+\subsubsection*{Script: \texttt{build\_fact\_medicion.py}}
+\begin{itemize}[noitemsep]
+    \item \textbf{Cruce de Orígenes}:
+        En cada iteración mensual, normaliza los textos de fecha y extrae la
+        hora y el minuto como números enteros. Utiliza una llave compuesta de 5
+        variables (\texttt{[`fecha', `hora', `minuto', `cod\_detector', `id\_carril']}) 
+        para ejecutar un Left Join, la velocidad promedio de un vehículo con
+        el volumen de la calle en ese minuto exacto.
+    \item \textbf{Reconstrucción Temporal}:
+        Concatena las variables de hora y minuto que estaban separadas en un
+        formato de texto estructurado (\texttt{"HH:MM:00"}) y lo convierte en
+        un tipo de dato nativo de tiempo (\texttt{hora\_t}).
+    \item \textbf{Mapeo de Claves y Streaming}:
+        Cruza el resultado con las dimensiones en memoria para obtener
+        el \texttt{fecha\_id} y \texttt{detector\_id}. Elimina todas las 
+        columnas descriptivas dejando solo números. 
+\end{itemize}
+
+\subsubsection*{Script: \texttt{build\_fact\_siniestros.py}}
+
+Se encarga de modelar la tabla de transacciones de accidentes de tránsito, 
+conectando la metadata categórica del siniestro con las dimensiones espacial
+y temporal.
+\begin{itemize}[noitemsep]
+    \item \textbf{Estandarización de Esquema y Texto}: 
+        Primero, se cargan los datos y se utiliza el diccionario SIN\_MAPPING
+        para renombrar las columnas y ajustarlas a la convención definida en el
+        proyecto. 
+        Adicionalmente, se aplica una limpieza (\textit{strip}) a 
+        las columnas de texto para eliminar cualquier espacio en blanco
+        innecesario al inicio o al final de las palabras.
+    \item \textbf{Geoprocesamiento Integrado}:
+        Al igual que la dimensión de ubicación, este script de hechos repite la
+        transformación geométrica \texttt{utm\_to\_latlon}.
+    \item \textbf{Cruces}:
+        Ejecuta un cruce conectando la fecha del siniestro con
+        \texttt{dim\_fecha}, y un cruce espacial sobre la latitud y longitud 
+        para recuperar el \texttt{ubicacion\_id} generado en la etapa de 
+        dimensiones.
+    \item \textbf{Limpieza Final y Exportación}:
+        Desecha las coordenadas crudas y las fechas en formato texto, 
+        preservando únicamente las claves (\textit{IDs}) y las
+        variables del accidente (si el conductor 
+        utilizaba casco o cinturón, sexo, edad, tipo de siniestro). 
+\end{itemize}

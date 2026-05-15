@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "trabajo-transito"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "140ae0fa-8122-4d83-9bb2-dec40a6739c3"
+  }
+}

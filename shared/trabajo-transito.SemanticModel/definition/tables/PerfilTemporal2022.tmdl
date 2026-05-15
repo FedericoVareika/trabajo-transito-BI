@@ -1,0 +1,94 @@
+table PerfilTemporal2022
+	lineageTag: 478ec481-1352-44b0-bdcb-e4354fb45ec9
+
+	column cod_detector
+		dataType: int64
+		lineageTag: 203bc20a-0387-4a86-a61f-618c520c18ba
+		summarizeBy: none
+		sourceColumn: cod_detector
+
+		annotation SummarizationSetBy = Automatic
+
+	column avenida
+		dataType: string
+		lineageTag: 055f9751-3a04-46eb-a928-8cb84bb2a95f
+		summarizeBy: none
+		sourceColumn: avenida
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitud
+		dataType: double
+		lineageTag: 0170e082-1a7a-49bb-9f9d-0be6458f3ba0
+		summarizeBy: sum
+		sourceColumn: latitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitud
+		dataType: double
+		lineageTag: 7a024ed8-c840-4a63-abc0-b00fb30019a7
+		summarizeBy: sum
+		sourceColumn: longitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes
+		dataType: int64
+		lineageTag: 1e01aa3a-b8b2-457d-a332-725ca48ae1c0
+		summarizeBy: sum
+		sourceColumn: mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column dia_semana
+		dataType: string
+		lineageTag: d9f9dd88-835c-48c1-9dc1-3bf62135f399
+		summarizeBy: none
+		sourceColumn: dia_semana
+
+		annotation SummarizationSetBy = Automatic
+
+	column hora
+		dataType: int64
+		lineageTag: 04fda1f0-639f-4e73-9713-498f3db2187f
+		summarizeBy: sum
+		sourceColumn: hora
+
+		annotation SummarizationSetBy = Automatic
+
+	column velocidad_media
+		dataType: double
+		lineageTag: 643714c2-0992-43e7-a0bb-b7129a684e6f
+		summarizeBy: sum
+		sourceColumn: velocidad_media
+
+		annotation SummarizationSetBy = Automatic
+
+	column volumen_total
+		dataType: int64
+		lineageTag: b550cafb-b306-43ae-956d-f9c1a0b9705d
+		summarizeBy: sum
+		sourceColumn: volumen_total
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PerfilTemporal2022-Partition = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("Z:\data\analitica\perfil_temporal_2022.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    ColNames = Table.ColumnNames(PromotedHeaders),
+				
+				    AllText = Table.TransformColumnTypes(PromotedHeaders, List.Transform(ColNames, each {_, type text})),
+				    CleanedText = Table.TransformColumns(AllText, List.Transform(ColNames, each {_, each Text.Clean(Text.Trim(_)), type text})),
+				    CleanedBlanks = Table.ReplaceValue(CleanedText, "", null, Replacer.ReplaceValue, ColNames),
+				    TypedNumbers = Table.TransformColumnTypes(CleanedBlanks,{{"cod_detector", Int64.Type}, {"mes", Int64.Type}, {"hora", Int64.Type}, {"volumen_total", Int64.Type}, {"velocidad_media", Double.Type}, {"latitud", Double.Type}, {"longitud", Double.Type}})
+				in
+				    TypedNumbers
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

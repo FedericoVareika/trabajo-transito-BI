@@ -1,0 +1,142 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 1383.75,
+        "y": 355
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 50,
+            "y": -50
+          },
+          "nodeIndex": "DimCalle",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1471.0552790349363,
+            "y": 622.92311912833
+          },
+          "nodeIndex": "DimDetector",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 902.63521281813121,
+            "y": 401.42339980528493
+          },
+          "nodeIndex": "DimFecha",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 334.18539175617315,
+            "y": 105.72027286680805
+          },
+          "nodeIndex": "DimUbicacion",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1186.857308764083,
+            "y": 505.52853022156421
+          },
+          "nodeIndex": "FactMedicion",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 618.39343083646372,
+            "y": 223.7863395654424
+          },
+          "nodeIndex": "FactSiniestros",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 2522.999729041047,
+            "y": 508.6366642235742
+          },
+          "nodeIndex": "PerfilTemporal2022",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 2238.8113891143748,
+            "y": 369.94688629330966
+          },
+          "nodeIndex": "PuntosCriticos2022",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1987.2095199390192,
+            "y": 16.286454904755544
+          },
+          "nodeIndex": "RecomendacionRadares2022",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 1755.0552790349363,
+            "y": 369.93298863773276
+          },
+          "nodeIndex": "TramosAnalitica2022",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 9
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 80,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

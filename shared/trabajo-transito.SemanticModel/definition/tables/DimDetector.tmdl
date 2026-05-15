@@ -1,0 +1,78 @@
+table DimDetector
+	lineageTag: 5d114118-71b2-43da-8bcf-df43f5e8faa9
+
+	column id
+		dataType: int64
+		lineageTag: 49debc26-6c95-4223-99c0-56b59971f98c
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo
+		dataType: int64
+		lineageTag: 68221598-1c09-46a0-861c-c2760301ef29
+		summarizeBy: none
+		sourceColumn: codigo
+
+		annotation SummarizationSetBy = Automatic
+
+	column avenida
+		dataType: string
+		lineageTag: d0b3724c-97b7-46cf-8365-39b53b42ec3c
+		summarizeBy: none
+		sourceColumn: avenida
+
+		annotation SummarizationSetBy = Automatic
+
+	column int_anterior
+		dataType: string
+		lineageTag: c6eee3e2-c811-45c2-9ad5-48f20a72d461
+		summarizeBy: none
+		sourceColumn: int_anterior
+
+		annotation SummarizationSetBy = Automatic
+
+	column int_siguiente
+		dataType: string
+		lineageTag: 19698b65-2d08-4e29-8bfa-99d3d8767b53
+		summarizeBy: none
+		sourceColumn: int_siguiente
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitud
+		dataType: double
+		lineageTag: 3f0267d8-13ba-4a97-8164-b681f36d6c38
+		summarizeBy: sum
+		sourceColumn: latitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitud
+		dataType: double
+		lineageTag: 68230a21-21db-494c-ad9f-1c4ea753a899
+		summarizeBy: sum
+		sourceColumn: longitud
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDetector-Partition = m
+		mode: import
+		source =
+								let
+								    Source = Csv.Document(File.Contents("Z:\data\estandarizado\dim_detector.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+								    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				                    ColNames = Table.ColumnNames(PromotedHeaders),
+				
+				                    AllText = Table.TransformColumnTypes(PromotedHeaders, List.Transform(ColNames, each {_, type text})),
+				                    CleanedText = Table.TransformColumns(AllText, List.Transform(ColNames, each {_, each Text.Clean(Text.Trim(_)), type text})),
+				                    CleanedBlanks = Table.ReplaceValue(CleanedText, "", null, Replacer.ReplaceValue, ColNames),
+				                    TypedNumbers = Table.TransformColumnTypes(CleanedBlanks,{{"id", Int64.Type}, {"codigo", Int64.Type}, {"latitud", Double.Type}, {"longitud", Double.Type}})
+				                in
+				                    TypedNumbers
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

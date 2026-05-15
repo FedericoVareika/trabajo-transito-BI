@@ -1,0 +1,85 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "2df0d8638e777f799118",
+  "position": {
+    "x": 761.65289256198355,
+    "y": 0,
+    "z": 1000,
+    "height": 389.641873278237,
+    "width": 518.34710743801656,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PuntosCriticos2022"
+                    }
+                  },
+                  "Property": "categoria_peligrosidad"
+                }
+              },
+              "queryRef": "PuntosCriticos2022.categoria_peligrosidad",
+              "nativeQueryRef": "categoria_peligrosidad",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PuntosCriticos2022"
+                        }
+                      },
+                      "Property": "latitud"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "Sum(PuntosCriticos2022.latitud)",
+              "nativeQueryRef": "Count of latitud"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "PuntosCriticos2022"
+                      }
+                    },
+                    "Property": "latitud"
+                  }
+                },
+                "Function": 5
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,126 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{setspace}
+
+% Code listings 
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Code listings style 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    % numbers=left,                    
+    % numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+\renewcommand{\lstlistingname}{Algoritmo}
+
+% Diagrams
+\usepackage{tikz}
+\usepackage{etoolbox}
+\usepackage{pgfplots}
+\usepackage{ifthen}
+\pgfplotsset{compat=1.12}
+
+\usetikzlibrary{decorations}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+\usetikzlibrary{matrix}
+\usetikzlibrary{fit}
+
+\usepackage[table]{xcolor}
+\usepackage{caption}
+\usepackage{array}
+
+\usepackage[numbers]{natbib}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+}
+
+\title{
+    {Trabajo Inteligencia Empresarial} \\
+    {\large Transporte Vehicular en Montevideo}
+}
+
+\author{Guillermo Golpe, Federico Vareika}
+\date{2026}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\input{Introduccion.tex}
+
+\input{ETL.tex}
+
+\input{AnaliticaEspacial.tex}
+
+\newpage 
+
+\input{PerfilTemporal.tex}
+
+\newpage 
+
+\input{PuntosCriticos.tex}
+
+\newpage 
+
+\input{RecomendacionRadares.tex}
+
+\newpage
+
+\input{TablasFinales.tex}
+
+\input{Conclusion.tex}
+
+\include{Apendice.tex}
+
+% \bibliographystyle{plain} 
+% \bibliography{Referencias}
+
+\end{document}
+
+
+

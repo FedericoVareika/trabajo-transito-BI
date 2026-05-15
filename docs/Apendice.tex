@@ -1,0 +1,100 @@
+\section{Ap\'endice}
+
+\subsection{Entrada y Salida}
+\begin{lstlisting}[language=Python, caption=Tipos de Entrada (input\_types.py)]
+class VelocidadPromedio:
+    cod_detector: int
+    id_carril: int
+    fecha: datetime.date
+    hora: datetime.time
+    dsc_avenida: str
+    dsc_int_anterior: str
+    dsc_int_siguiente: str
+    latitud: float
+    longitud: float
+    velocidad: float
+
+class ConteoVehicular:
+    cod_detector: int
+    id_carril: int 
+    fecha: datetime.date
+    hora: datetime.time
+    dsc_avenida: str
+    dsc_int_anterior: str
+    dsc_int_siguiente: str
+    latitud: float
+    longitud: float 
+    volume: int
+    volumen_hora: float
+
+class Siniestros:
+    fecha: datetime.date
+    edad: int | None
+    rol: RolEnum
+    calle: str
+    zona: ZonaEnum | None
+    tipo_resultado: ResultadoSiniestroEnum
+    tipo_siniestro: str
+    usa_cinturon: bool | None
+    usa_casco: bool | None
+    dia_semana: str
+    sexo: str | None
+    hora: int
+    departamento: str
+    localidad: str | None
+    novedad: int
+    tipo_vehiculo: VehiculoEnum | None
+    fixed: str | None
+    x: int
+    y: int
+\end{lstlisting}
+
+\begin{lstlisting}[language=python, caption=Tipos de Salida (output\_types.py)]
+class dim_fecha:
+    id: int
+    fecha: datetime.date
+    anio: int
+    mes: int
+    dia: int
+
+class dim_ubicacion:
+    id: int 
+    latitud: float
+    longitud: float
+    descripcion: str
+    tipo: str
+
+class dim_calle:
+    id: int 
+    ubicacion: int 
+    nombre: str
+
+class dim_detector:
+    id: int 
+    codigo: int 
+    avenida: str
+    int_anterior: str
+    int_siguiente: str
+    latitud: float
+    longitud: float
+
+class fact_medicion:
+    fecha_id: int
+    detector_id: int 
+    hora: datetime.time 
+    id_carril: int
+    velocidad: float
+    volumen: int
+    volumen_hora: int
+
+class fact_siniestros:
+    fecha_id: int
+    ubicacion_id: int 
+    tipo_resultado: ResultadoSiniestroEnum
+    tipo_siniestro: str
+    usa_cinturon: bool | None
+    usa_casco: bool | None
+    edad: int
+    sexo: str | None
+
+\end{lstlisting}

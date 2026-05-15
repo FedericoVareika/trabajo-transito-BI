@@ -1,0 +1,48 @@
+table DimFecha
+	lineageTag: 33e7a54b-7353-47eb-a768-d1feb5b8010b
+
+	column id
+		dataType: int64
+		lineageTag: dbd19dae-0e62-4b99-8b16-579ff5eca85f
+		sourceColumn: id
+
+	column fecha
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 881c88b6-bf09-49ec-ad1a-572a58ab29eb
+		sourceColumn: fecha
+
+	column anio
+		dataType: int64
+		lineageTag: d423a653-5259-4634-aef2-c05d6253a157
+		sourceColumn: anio
+
+	column mes
+		dataType: int64
+		lineageTag: 59b6dd64-4b96-407e-a09d-ad1b4cc112f0
+		sourceColumn: mes
+
+	column dia
+		dataType: int64
+		lineageTag: 825428ea-3c76-45f3-8a6c-cce7fa1bf9b5
+		sourceColumn: dia
+
+	partition DimFecha-Partition = m
+		mode: import
+		source =
+								let
+								    Source = Csv.Document(File.Contents("Z:\data\estandarizado\dim_fecha.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+								    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				                    ColNames = Table.ColumnNames(PromotedHeaders),
+				
+				                    AllText = Table.TransformColumnTypes(PromotedHeaders, List.Transform(ColNames, each {_, type text})),
+				                    CleanedText = Table.TransformColumns(AllText, List.Transform(ColNames, each {_, each Text.Clean(Text.Trim(_)), type text})),
+				                    CleanedBlanks = Table.ReplaceValue(CleanedText, "", null, Replacer.ReplaceValue, ColNames),
+				                    TypedNumbers = Table.TransformColumnTypes(CleanedBlanks,{{"id", Int64.Type}, {"fecha", DateTime.Type}, {"anio", Int64.Type}, {"mes", Int64.Type}, {"dia", Int64.Type}})
+				                in
+				                    TypedNumbers
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

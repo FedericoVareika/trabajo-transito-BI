@@ -1,0 +1,85 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "98e2852fd530bbd1ad93",
+  "position": {
+    "x": 689.3663911845731,
+    "y": 0,
+    "z": 1000,
+    "height": 398.45730027548211,
+    "width": 590.633608815427,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "funnel",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RecomendacionRadares2022"
+                    }
+                  },
+                  "Property": "prioridad_radar"
+                }
+              },
+              "queryRef": "RecomendacionRadares2022.prioridad_radar",
+              "nativeQueryRef": "prioridad_radar",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RecomendacionRadares2022"
+                        }
+                      },
+                      "Property": "cod_detector"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "Sum(RecomendacionRadares2022.cod_detector)",
+              "nativeQueryRef": "Count of cod_detector"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "RecomendacionRadares2022"
+                      }
+                    },
+                    "Property": "cod_detector"
+                  }
+                },
+                "Function": 5
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

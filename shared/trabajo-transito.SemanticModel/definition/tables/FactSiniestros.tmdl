@@ -1,0 +1,58 @@
+table FactSiniestros
+	lineageTag: 4aa307c4-2c85-438d-aaac-460046bd88bc
+
+	column fecha_id
+		dataType: int64
+		lineageTag: ff0153d1-2e8e-4b2a-b037-77336073260b
+		sourceColumn: fecha_id
+
+	column ubicacion_id
+		dataType: int64
+		lineageTag: aa199344-14aa-4fe6-abb0-665eda3d99ca
+		sourceColumn: ubicacion_id
+
+	column tipo_resultado
+		dataType: string
+		lineageTag: 90dfb828-3294-4575-8fea-59629b503872
+		sourceColumn: tipo_resultado
+
+	column tipo_siniestro
+		dataType: string
+		lineageTag: 9ef8f8e9-cb98-4790-84b6-e657f6a7eeb1
+		sourceColumn: tipo_siniestro
+
+	column usa_cinturon
+		dataType: string
+		lineageTag: 8709de20-6db8-46b3-8169-3f7b7b7c1117
+		sourceColumn: usa_cinturon
+
+	column usa_casco
+		dataType: string
+		lineageTag: ba386acb-a537-48aa-a36f-d75bbd32f0a9
+		sourceColumn: usa_casco
+
+	column edad
+		dataType: int64
+		lineageTag: a210e0f0-32af-487a-8219-d329d566bc23
+		sourceColumn: edad
+
+	column sexo
+		dataType: string
+		lineageTag: 1f9d37fd-e68d-40aa-9fa5-19c5ff098d9d
+		sourceColumn: sexo
+
+	partition FactSiniestros-Partition = m
+		mode: import
+		source =
+								let
+								    Source = Csv.Document(File.Contents("Z:\data\estandarizado\fact_siniestros.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+								    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				                    ColNames = Table.ColumnNames(PromotedHeaders),
+				
+				                    AllText = Table.TransformColumnTypes(PromotedHeaders, List.Transform(ColNames, each {_, type text})),
+				                    CleanedText = Table.TransformColumns(AllText, List.Transform(ColNames, each {_, each Text.Clean(Text.Trim(_)), type text})),
+				                    CleanedBlanks = Table.ReplaceValue(CleanedText, "", null, Replacer.ReplaceValue, ColNames),
+				                    TypedNumbers = Table.TransformColumnTypes(CleanedBlanks,{{"fecha_id", Int64.Type}, {"ubicacion_id", Int64.Type}, {"edad", Int64.Type}})
+				                in
+				                    TypedNumbers
+
